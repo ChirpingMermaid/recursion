@@ -10,7 +10,9 @@ var stringifyJSON = function(obj) {
 
   //if type is object
   if (type === "object"){ 
-  	if (Array.isArray(obj)){ //if object is an array
+  	if (obj === null){ // if object is null
+  		return String(obj);
+  	} else if (Array.isArray(obj)){ //if object is an array
   		string += "[";
   		for (var i=0; i<obj.length; i++){
   			if (i === obj.length - 1){ //if last element, no comma
@@ -27,9 +29,9 @@ var stringifyJSON = function(obj) {
   			if (typeof obj[key] !== "function" && typeof obj[key] !== "undefined"){
   				//skip functions and undefined values
   				if (key === keys[keys.length-1]){ //if last key, no comma
-	  				string += String(key) + ":" + stringifyJSON(obj[key]);
+	  				string += '"' + String(key) + '":' + stringifyJSON(obj[key]);
 	  			} else { //otherwise, include comma
-	  				string += String(key) + ":" + stringifyJSON(obj[key]) + ",";
+	  				string += '"' + String(key) + '":' + stringifyJSON(obj[key]) + ",";
 	  			}
 	  		}
   		}
@@ -48,6 +50,6 @@ var stringifyJSON = function(obj) {
   }
   //if type is string
   if (type === "string"){
-  	return obj;
+  	return '"' + obj + '"';
   }
 };
